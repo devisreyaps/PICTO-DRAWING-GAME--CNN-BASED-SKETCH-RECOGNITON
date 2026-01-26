@@ -7,17 +7,6 @@ An interactive drawing game where kids learn to draw with AI feedback!
 
 </div>
 
-## 📋 Table of Contents
-- [✨ Features](#-features)
-- [🚀 Quick Start](#-quick-start)
-- [🏗️ Architecture](#%EF%B8%8F-architecture)
-- [🛠️ Tech Stack](#%EF%B8%8F-tech-stack)
-- [📁 Project Structure](#-project-structure)
-- [🧠 AI Model Details](#-ai-model-details)
-- [📊 Dataset](#-dataset)
-- [📝 License](#-license)
-- [🙏 Acknowledgments](#-acknowledgments)
-
 ## ✨ Features
 
 ### 🎯 **Core Features**
@@ -58,7 +47,7 @@ streamlit run pictai_api.py
 # Terminal 2 - Open frontend:
 # Double-click htmll.html
 
-### System Architecture Diagram
+## System Architecture Diagram
 ┌─────────────────┐     HTTP/JSON     ┌─────────────────┐     Inference     ┌─────────────────┐
 │                 │                   │                 │                   │                 │
 │  Frontend       │◄────────────────► │  Flask Backend  │◄────────────────► │  PyTorch CNN    │
@@ -71,13 +60,14 @@ streamlit run pictai_api.py
 └─────────────────┘                   └─────────────────┘                   └─────────────────┘
 🧠 AI Model Details
 Model Performance
-Metric	Value	Description
-Accuracy	84.6%	On test dataset
-Training Time	~2 hours	On GPU
-Inference Time	< 100ms	Per drawing
-Model Size	2.5 MB	Disk space
-Classes	12	Drawing categories
-### Training Details
+Metric	       Value	           Description
+Accuracy	      84.6%	            On test dataset
+Inference Time	< 100ms	          Per drawing
+Model Size	    2.5 MB	          Disk space
+Classes	        12	              Drawing categories
+
+
+## Training Details
 Dataset: Google QuickDraw (12 categories, 120K samples)
 
 Train/Test Split: 80/20
