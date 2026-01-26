@@ -1,9 +1,5 @@
 # PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
 An interactive drawing game where kids learn to draw with AI feedback!
-# 🎨 PICTO - AI Drawing Game with CNN Sketch Recognition
-
-**An interactive AI-powered drawing game where kids learn to draw with positive reinforcement**  
-*Like Duolingo for drawing - Only encouragement, no scolding!*
 
 </div>
 
@@ -26,32 +22,12 @@ Image Preprocessing: Automatic resizing, normalization, and augmentation
 Confidence Scoring: Detailed breakdown of prediction probabilities
 
 Multi-class Support: Can recognize and differentiate between all 12 categories
+##  System Architecture Diagram
 
-## 🎮 Live Demo
-```bash
-# Copy and paste this command:
-gh repo clone devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
-
-# OR if you don't have GitHub CLI:
-git clone https://github.com/devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON.git
-
-# Navigate into the project:
-cd PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
-
-# Install required Python packages:
-pip install -r requirements.txt
-
-# Terminal 1 - Start backend:
-streamlit run pictai_api.py
-
-# Terminal 2 - Open frontend:
-# Double-click htmll.html
-
-## System Architecture Diagram
 ┌─────────────────┐     HTTP/JSON     ┌─────────────────┐     Inference     ┌─────────────────┐
 │                 │                   │                 │                   │                 │
 │  Frontend       │◄────────────────► │  Flask Backend  │◄────────────────► │  PyTorch CNN    │
-│  (Browser)      │   Base64 Images   │  (Python)      │   Tensor Data      │  Model          │
+│  (Browser)      │   Base64 Images   │  (Python)       │   Tensor Data     │  Model          │
 │                 │                   │                 │                   │                 │
 ├─────────────────┤                   ├─────────────────┤                   ├─────────────────┤
 │ • HTML5 Canvas  │                   │ • REST API      │                   │ • 84.6% Acc     │
@@ -79,3 +55,24 @@ Loss Function: CrossEntropyLoss
 Epochs: 50 with early stopping
 
 Batch Size: 64
+
+
+## 🎮 Live Demo
+```bash
+# Copy and paste this command:
+gh repo clone devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
+
+# OR if you don't have GitHub CLI:
+git clone https://github.com/devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON.git
+
+# Navigate into the project:
+cd PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
+
+# Install required Python packages:
+pip install -r requirements.txt
+
+# Terminal 1 - Start backend:
+streamlit run pictai_api.py
+
+# Terminal 2 - Open frontend:
+# Double-click htmll.html
