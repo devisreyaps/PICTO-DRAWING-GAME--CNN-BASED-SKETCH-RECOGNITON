@@ -52,8 +52,22 @@ An interactive drawing game where kids learn to draw with AI feedback!
 
 ## 🎮 Live Demo
 
-**Try it now!** Clone and run with one command:
+#### **Step 1: Clone the Repository**
 ```bash
-git clone https://github.com/devisreyaps/PICTO-DRAWING-GAME.git
-cd PICTO-DRAWING-GAME
-python run.py
+# Copy and paste this command:
+gh repo clone devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
+
+# OR if you don't have GitHub CLI:
+git clone https://github.com/devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON.git
+
+# Navigate into the project:
+cd PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
+
+# Install required Python packages:
+pip install -r requirements.txt
+
+# Terminal 1 - Start backend:
+streamlit run pictai_api.py
+
+# Terminal 2 - Open frontend:
+# Double-click htmll.html
