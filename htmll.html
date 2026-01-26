@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖌️ Picto - Kids Drawing Teacher</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            background: linear-gradient(135deg, #FF9EC1 0%, #B5D5FF 50%, #FFD93D 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+        
+        .screen { 
+            min-height: calc(100vh - 20px);
+            display: none; 
+            padding: 20px; 
+            text-align: center;
+            animation: slideIn 0.5s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screen.active { 
+            display: block; 
+        }
+        
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Header Styles */
+        h1 { 
+            font-size: 4.5rem; 
+            margin: 30px 0 20px 0; 
+            color: #800000; 
+            text-shadow: 4px 4px #fff, 6px 6px #FFD93D;
+            font-weight: bold;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            color: #800000;
+            margin: 20px 0;
+        }
+        
+        /* Button Styles */
+        button { 
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 1.3rem; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            margin: 15px; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s; 
+            font-family: inherit;
+        }
+        
+        button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+        }
+        
+        button.secondary {
+            background: linear-gradient(45deg, #2196F3, #0b7dda);
+        }
+        
+        button.clear {
+            background: linear-gradient(45deg, #ff5722, #ff8a65);
+        }
+        
+        /* Canvas Styles */
+        canvas { 
+            border: 8px solid #333; 
+            border-radius: 25px; 
+            background: white; 
+            cursor: crosshair;
+            display: block; 
+            margin: 20px auto; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            touch-action: none;
+        }
+        
+        /* Target Image */
+        .target-container {
+            margin: 30px 0;
+        }
+        
+        .target-img { 
+            width: 200px; 
+            height: 200px; 
+            border-radius: 25px; 
+            margin: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            margin: 0 auto;
+        }
+        
+        /* Category Buttons */
+        .categories { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 15px; 
+            margin: 30px 0; 
+        }
+        
+        .category-btn { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            font-size: 2.5rem; 
+            border: 5px solid #fff;
+            background: rgba(255,255,255,0.9);
+            cursor: pointer; 
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .category-btn:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25); 
+        }
+        
+        .category-btn.active { 
+            background: linear-gradient(45deg, #FF5722, #FF8A65); 
+            border-color: #FFD700; 
+            transform: scale(1.05);
+        }
+        
+        /* Feedback Area */
+        .feedback-container {
+            min-height: 120px;
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        #feedback {
+            font-size: 2rem; 
+            color: #800000; 
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .stars { 
+            font-size: 3.5rem; 
+            color: #FFD700; 
+            margin: 25px 0; 
+            animation: bounce 0.6s infinite; 
+        }
+        
+        @keyframes bounce { 
+            0%, 100% { transform: scale(1); } 
+            50% { transform: scale(1.1); } 
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 90%;
+            max-width: 500px;
+            margin: 25px auto;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .progress { 
+            background: #f0f0f0; 
+            height: 25px; 
+            border-radius: 15px; 
+            overflow: hidden; 
+        }
+        
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, #4CAF50, #8BC34A); 
+            border-radius: 15px; 
+            width: 0%; 
+            transition: width 0.8s; 
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            canvas { width: 95vw; height: 95vw; max-width: 400px; max-height: 400px; }
+            .target-img { width: 150px; height: 150px; font-size: 70px; }
+            .category-btn { width: 70px; height: 70px; font-size: 2rem; }
+            #feedback { font-size: 1.6rem; }
+            button { padding: 12px 25px; font-size: 1.1rem; }
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        /* Loading Indicator */
+        .loading {
+            display: none;
+            font-size: 1.8rem;
+            color: #2196F3;
+            margin: 20px 0;
+        }
+        
+        .loading.active {
+            display: block;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen 1: Splash -->
+    <div id="splash" class="screen active">
+        <h1>Picto 🖌️</h1>
+        <p style="font-size: 2.2rem; margin: 60px 0; color: #800000;">
+            Learn to Draw with PICTO!
+        </p>
+        <div class="target-img" style="font-size: 120px;">
+            🎨
+        </div>
+        <button onclick="showScreen('main')">✨ Let's Draw!</button>
+    </div>
+
+    <!-- Screen 2: Main Drawing -->
+    <div id="main" class="screen">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <button onclick="showScreen('splash')" style="background: none; border: none; font-size: 2.5rem; color: #800000; padding: 5px;">
+                ←
+            </button>
+            <h2>Choose what to draw:</h2>
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: #4CAF50; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;">
+                <span id="starCount">12</span>
+            </div>
+        </div>
+        
+        <!-- Category Selection -->
+        <div class="categories" id="categories"></div>
+        
+        <!-- Target to Draw -->
+        <div class="target-container">
+            <div id="targetDisplay" class="target-img">🍎</div>
+            <p id="targetText" style="font-size: 2rem; color: #800000; margin: 20px 0;">
+                Draw an apple!
+            </p>
+        </div>
+        
+        <!-- Drawing Canvas -->
+        <canvas id="canvas" width="450" height="450"></canvas>
+        
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button onclick="clearCanvas()" class="clear">🗑️ Clear</button>
+            <button onclick="checkDrawing()" class="secondary"> PICTO Check</button>
+            <button onclick="saveDrawing()">💾 Save</button>
+        </div>
+        
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Your Progress:</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading">
+            🤔 PICTO is thinking...
+        </div>
+        
+        <!-- Feedback Area -->
+        <div class="feedback-container">
+            <div id="feedback">Draw something and click "AI Check"!</div>
+            <div id="stars" class="stars">⭐⭐⭐</div>
+        </div>
+        
+        <!-- API Status -->
+        <div id="apiStatus" style="margin-top: 30px; font-size: 1rem; color: #666;">
+            Connecting to PICTO...
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:5000';  // Your Flask API
+        const categories = [
+            {name: 'apple', icon: '🍎'},
+            {name: 'cat', icon: '🐱'}, 
+            {name: 'house', icon: '🏠'},
+            {name: 'sheep', icon: '🐑'},
+            {name: 'tree', icon: '🌳'},
+            {name: 'airplane', icon: '✈️'},
+            {name: 'bird', icon: '🐦'},
+            {name: 'dog', icon: '🐶'},
+            {name: 'fish', icon: '🐟'},
+            {name: 'pizza', icon: '🍕'},
+            {name: 'rabbit', icon: '🐰'},
+            {name: 'umbrella', icon: '☔'}
+        ];
+        
+        // Game State
+        let currentTarget = 'apple';
+        let stars = 0;
+        let attempts = 0;
+        let canvas, ctx;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCanvas();
+            createCategoryButtons();
+            updateStarDisplay();
+            checkAPIStatus();
+        });
+        
+        // Screen Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            if (screenId === 'main') {
+                resetDrawing();
+            }
+        }
+        
+        // Canvas Functions
+        function initializeCanvas() {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+        
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = getCoordinates(e);
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            e.preventDefault();
+            const [x, y] = getCoordinates(e);
+            
+            // Draw line
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [x, y];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        function getCoordinates(e) {
+            let x, y;
+            
+            if (e.type.includes('mouse')) {
+                const rect = canvas.getBoundingClientRect();
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            } else if (e.type.includes('touch')) {
+                const rect = canvas.getBoundingClientRect();
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            }
+            
+            return [x, y];
+        }
+        
+        function handleTouchStart(e) {
+            e.preventDefault();
+            startDrawing(e);
+        }
+        
+        function handleTouchMove(e) {
+            e.preventDefault();
+            draw(e);
+        }
+        
+        function clearCanvas() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('feedback').textContent = 'Canvas cleared! Try again!';
+            document.getElementById('stars').textContent = '⭐⭐⭐';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressPercent').textContent = '0%';
+        }
+        
+        function resetDrawing() {
+            clearCanvas();
+            document.getElementById('feedback').textContent = 'Draw something and click "PICTO Check"!';
+        }
+        
+        // Category Selection
+        function createCategoryButtons() {
+            const categoriesDiv = document.getElementById('categories');
+            categoriesDiv.innerHTML = '';
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.innerHTML = category.icon;
+                button.title = `Draw a ${category.name}`;
+                button.onclick = () => selectCategory(category.name, category.icon);
+                
+                if (category.name === currentTarget) {
+                    button.classList.add('active');
+                }
+                
+                categoriesDiv.appendChild(button);
+            });
+        }
+        
+        function selectCategory(categoryName, categoryIcon) {
+            currentTarget = categoryName;
+            
+            // Update UI
+            document.getElementById('targetDisplay').textContent = categoryIcon;
+            document.getElementById('targetText').textContent = `Draw a ${categoryName}!`;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.title === `Draw a ${categoryName}`) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Clear feedback
+            document.getElementById('feedback').textContent = `Now draw a ${categoryName}!`;
+            document.getElementById('stars').textContent = '⭐⭐⭐';
+        }
+        
+        // Star Management
+        function updateStarDisplay() {
+            document.getElementById('starCount').textContent = stars;
+        }
+        
+        function addStars(count) {
+            stars += count;
+            updateStarDisplay();
+            
+            // Show star animation
+            const starsElement = document.getElementById('stars');
+            starsElement.textContent = '⭐'.repeat(Math.min(count + 3, 10));
+            
+            // Update feedback with encouragement
+            const encouragements = [
+                "Amazing! You're getting better!",
+                "Fantastic drawing!",
+                "Wow! You're an artist!",
+                "Great job! Keep practicing!",
+                "Excellent work!",
+                "You're a drawing superstar!",
+                "Incredible! The PICTO is impressed!",
+                "You're learning so fast!"
+            ];
+            
+            const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+            document.getElementById('feedback').innerHTML = `${randomEncouragement} <br>+${count} stars!`;
+        }
+        
+        // API Connection
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                if (response.ok) {
+                    document.getElementById('apiStatus').innerHTML = 
+                        '✅ PICTO is ready to check your drawings!';
+                    document.getElementById('apiStatus').style.color = '#4CAF50';
+                } else {
+                    throw new Error('API not responding');
+                }
+            } catch (error) {
+                document.getElementById('apiStatus').innerHTML = 
+                    '⚠️ PICTO server not found. Make sure Flask API is running on port 5000.';
+                document.getElementById('apiStatus').style.color = '#ff5722';
+                console.error('API Error:', error);
+            }
+        }
+        
+        // Main Drawing Check Function
+        async function checkDrawing() {
+            // Check if canvas is empty
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const isEmpty = imageData.data.every(channel => channel === 255);
+            
+            if (isEmpty) {
+                document.getElementById('feedback').textContent = 
+                    "Please draw something first!";
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('feedback').textContent = "PICTO is checking your drawing...";
+            
+            try {
+                // Convert canvas to base64
+                const imageBase64 = canvas.toDataURL('image/png');
+                
+                // Prepare request data
+                const requestData = {
+                    image_base64: imageBase64,
+                    target: currentTarget
+                };
+                
+                // Send to Flask API
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+                
+                // Process results
+                processAIResult(result);
+                
+            } catch (error) {
+                console.error('Error checking drawing:', error);
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('feedback').innerHTML = 
+                    "⚠️ Could not connect to PICTO. Make sure:<br>" +
+                    "1. Flask API is running<br>" +
+                    "2. API URL is correct<br>" +
+                    "3. No CORS issues";
+            }
+        }
+        
+        function processAIResult(result) {
+            attempts++;
+            
+            if (result.error) {
+                document.getElementById('feedback').textContent = 
+                    "PICTO had trouble checking your drawing. Try again!";
+                return;
+            }
+            
+            const prediction = result.prediction;
+            const confidence = result.confidence;
+            const targetMatch = result.target_match || 0;
+            const isCorrect = result.is_correct || false;
+            
+            // Update progress bar based on target match
+            const progressPercent = Math.min(targetMatch, 100);
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressPercent').textContent = `${Math.round(progressPercent)}%`;
+            
+            // Determine stars to award
+            let starsEarned = 0;
+            let feedbackMessage = "";
+            
+            if (isCorrect && confidence > 70) {
+                starsEarned = 3;
+                feedbackMessage = `Perfect! The PICTO recognized your ${currentTarget} with ${confidence.toFixed(1)}% confidence!`;
+            } else if (targetMatch > 50) {
+                starsEarned = 2;
+                feedbackMessage = `Good job! Your drawing looks ${targetMatch.toFixed(1)}% like a ${currentTarget}!`;
+            } else if (targetMatch > 25) {
+                starsEarned = 1;
+                feedbackMessage = `Nice try! The PICTO sees some ${currentTarget} in your drawing (${targetMatch.toFixed(1)}%).`;
+            } else {
+                feedbackMessage = `The PICTO thinks you drew a ${prediction}. Try to make it look more like a ${currentTarget}!`;
+            }
+            
+            // Add stars if earned
+            if (starsEarned > 0) {
+                addStars(starsEarned);
+            }
+            
+            // Show detailed feedback
+            if (!starsEarned) {
+                feedbackMessage += `<br>Keep practicing! The PICTO is ${confidence.toFixed(1)}% sure it's a ${prediction}.`;
+            }
+            
+            document.getElementById('feedback').innerHTML = feedbackMessage;
+            
+            // Show all predictions in console for debugging
+            console.log("PICTO Predictions:", result.all_predictions);
+        }
+        
+        function saveDrawing() {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `pictai-${currentTarget}-drawing.png`;
+            link.click();
+            
+            document.getElementById('feedback').textContent = 
+                `Drawing saved as pictai-${currentTarget}-drawing.png!`;
+        }
+        
+        // Initial category selection
+        selectCategory('apple', '🍎');
+    </script>
+</body>
+</html>
