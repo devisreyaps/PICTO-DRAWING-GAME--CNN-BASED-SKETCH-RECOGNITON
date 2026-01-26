@@ -2,34 +2,19 @@
 An interactive drawing game where kids learn to draw with AI feedback!
 # 🎨 PICTO - AI Drawing Game with CNN Sketch Recognition
 
-<div align="center">
-
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-2.3-brightgreen.svg?style=for-the-badge&logo=flask&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-AI%20Model-orange.svg?style=for-the-badge&logo=pytorch&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
-![For Kids](https://img.shields.io/badge/For-Kids%20(5+)-pink.svg?style=for-the-badge)
-
 **An interactive AI-powered drawing game where kids learn to draw with positive reinforcement**  
 *Like Duolingo for drawing - Only encouragement, no scolding!*
-
-[Demo Video](https://youtu.be/your-demo) • [Report Bug](https://github.com/devisreyaps/PICTO-DRAWING-GAME/issues) • [Request Feature](https://github.com/devisreyaps/PICTO-DRAWING-GAME/issues)
-
-<img src="assets/demo.gif" width="600" alt="Picto Game Demo">
 
 </div>
 
 ## 📋 Table of Contents
 - [✨ Features](#-features)
-- [🎮 Live Demo](#-live-demo)
 - [🚀 Quick Start](#-quick-start)
 - [🏗️ Architecture](#%EF%B8%8F-architecture)
 - [🛠️ Tech Stack](#%EF%B8%8F-tech-stack)
 - [📁 Project Structure](#-project-structure)
 - [🧠 AI Model Details](#-ai-model-details)
 - [📊 Dataset](#-dataset)
-- [🔧 API Endpoints](#-api-endpoints)
-- [🤝 Contributing](#-contributing)
 - [📝 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
 
@@ -42,17 +27,18 @@ An interactive drawing game where kids learn to draw with AI feedback!
 - **👶 Kid-Friendly Design**: Only positive reinforcement - no negative feedback
 - **🎨 Interactive Canvas**: Smooth drawing experience with touch support
 - **📊 Visual Progress**: Real-time feedback and progress tracking
+### 🤖 AI & Technical Features
+CNN Model with 84.6% Accuracy: Trained on Google QuickDraw dataset
 
-### 💡 **Unique Selling Points**
-- **Positive Psychology**: Designed to build confidence in young learners
-- **Instant Feedback**: AI provides immediate, encouraging responses
-- **Educational Value**: Develops fine motor skills and creativity
-- **Accessible**: Works on desktop, tablet, and mobile browsers
-- **No Ads**: Clean, distraction-free learning environment
+Fast Inference: <100ms response time for drawing recognition
+
+Image Preprocessing: Automatic resizing, normalization, and augmentation
+
+Confidence Scoring: Detailed breakdown of prediction probabilities
+
+Multi-class Support: Can recognize and differentiate between all 12 categories
 
 ## 🎮 Live Demo
-
-#### **Step 1: Clone the Repository**
 ```bash
 # Copy and paste this command:
 gh repo clone devisreyaps/PICTO-DRAWING-GAME--CNN-BASED-SKETCH-RECOGNITON
@@ -71,3 +57,35 @@ streamlit run pictai_api.py
 
 # Terminal 2 - Open frontend:
 # Double-click htmll.html
+
+### System Architecture Diagram
+┌─────────────────┐     HTTP/JSON     ┌─────────────────┐     Inference     ┌─────────────────┐
+│                 │                   │                 │                   │                 │
+│  Frontend       │◄────────────────► │  Flask Backend  │◄────────────────► │  PyTorch CNN    │
+│  (Browser)      │   Base64 Images   │  (Python)      │   Tensor Data      │  Model          │
+│                 │                   │                 │                   │                 │
+├─────────────────┤                   ├─────────────────┤                   ├─────────────────┤
+│ • HTML5 Canvas  │                   │ • REST API      │                   │ • 84.6% Acc     │
+│ • Vanilla JS    │                   │ • CORS Handling │                   │ • 12 Categories │
+│ • CSS3 Animations│                  │ • Image Preproc │                   │ • 2.5MB Size    │
+└─────────────────┘                   └─────────────────┘                   └─────────────────┘
+🧠 AI Model Details
+Model Performance
+Metric	Value	Description
+Accuracy	84.6%	On test dataset
+Training Time	~2 hours	On GPU
+Inference Time	< 100ms	Per drawing
+Model Size	2.5 MB	Disk space
+Classes	12	Drawing categories
+### Training Details
+Dataset: Google QuickDraw (12 categories, 120K samples)
+
+Train/Test Split: 80/20
+
+Optimizer: Adam with learning rate 0.001
+
+Loss Function: CrossEntropyLoss
+
+Epochs: 50 with early stopping
+
+Batch Size: 64
