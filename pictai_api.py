@@ -10,7 +10,7 @@ import base64
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, origins=['https://devisreyaps.github.io', 'http://localhost:5000']) # Enable CORS for all routes
 
 # YOUR MODEL CLASS (unchanged)
 class QuickDrawCNN(nn.Module):
@@ -35,7 +35,8 @@ class QuickDrawCNN(nn.Module):
 # Load model ONCE
 print("🔥 Loading your 84.6% model...")
 model = QuickDrawCNN(12)
-model.load_state_dict(torch.load('quickdraw_proper.pt', map_location='cpu'))
+model_path = os.path.join(os.path.dirname(__file__), 'quickdraw_proper.pt')
+model.load_state_dict(torch.load(model_path, map_location='cpu'))
 model.eval()
 categories = ['apple','cat','house','sheep','tree','airplane','bird','dog','fish','pizza','rabbit','umbrella']
 print("✅ Backend ready on http://localhost:5000")
@@ -104,5 +105,6 @@ def get_categories():
     return jsonify({'categories': categories})
 
 if __name__ == '__main__':
-    os.makedirs("progress", exist_ok=True)
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
