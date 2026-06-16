@@ -321,8 +321,10 @@
     </div>
 
     <script>
-        // Configuration
-        const API_URL = 'http://localhost:5000';  // Your Flask API
+        // Configuration // Your Flask API
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000' 
+            : 'https://YOUR-BACKEND-URL.onrender.com';
         const categories = [
             {name: 'apple', icon: '🍎'},
             {name: 'cat', icon: '🐱'}, 
