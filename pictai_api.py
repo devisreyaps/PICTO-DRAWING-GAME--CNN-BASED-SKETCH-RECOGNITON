@@ -15,7 +15,7 @@ CORS(app, origins=[
     'http://localhost:5000',
     'http://localhost:8000',
     'https://picto-game-devi.onrender.com'
-])) # Enable CORS for all routes
+])# Enable CORS for all routes
 
 # YOUR MODEL CLASS (unchanged)
 class QuickDrawCNN(nn.Module):
