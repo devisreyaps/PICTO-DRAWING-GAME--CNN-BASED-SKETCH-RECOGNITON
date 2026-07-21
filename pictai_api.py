@@ -10,12 +10,7 @@ import base64
 import os
 
 app = Flask(__name__)
-CORS(app, origins=[
-    'https://devisreyaps.github.io',
-    'http://localhost:5000',
-    'http://localhost:8000',
-    'https://picto-game-devi.onrender.com'
-])# Enable CORS for all routes
+CORS(app, origins='*')# Enable CORS for all routes
 
 # YOUR MODEL CLASS (unchanged)
 class QuickDrawCNN(nn.Module):
